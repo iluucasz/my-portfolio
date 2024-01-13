@@ -45,12 +45,13 @@ const MOCK_CONTACT = [
   }
 ]
 
+const IAM_TECHS = ['Web', 'Full-Stack', 'Front-End', 'Typescript', 'React', 'NextJS'];
 
 
 const About = () => {
 
   const [writing] = useTypewriter({
-    words: ['Web', 'Full-Stack', 'Front-End', 'Typescript', 'React', 'NextJS'],
+    words: IAM_TECHS,
     loop: true,
     typeSpeed: 200,
     deleteSpeed: 100,
@@ -62,12 +63,14 @@ const About = () => {
     <section className='flex justify-center w-full h-full text-white'>
       <div className='container flex flex-col justify-center items-center'>
         <div className='flex flex-col items-center justify-center gap-8 p-8'>
+
           <h4 className='text-xl font-medium'>&lt;Lucas S Santos &frasl;&gt;</h4>
           <h3 className='text-3xl font-bold w-[600px]'>
             Eu sou um Desenvolvedor
             <span className='ml-2 text-red-900 font-black'>{writing}</span>
             <Cursor cursorColor='black' cursorStyle="#" />
           </h3>
+
           <p className='w-10/12 lg: max-w-[520px]'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Commodi quo quidem voluptatibus, corrupti eos ratione dolore

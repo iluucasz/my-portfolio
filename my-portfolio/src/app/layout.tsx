@@ -7,7 +7,7 @@ import BackToTop from '@/components/back-to-top';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'My portfolio',
+  title: 'LSS Portfolio',
   description: 'Meu website para demonstração de currículo e techs',
 }
 
