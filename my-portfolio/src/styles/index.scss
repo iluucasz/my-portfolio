@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    .container {
+        @apply mx-auto w-full max-w-[1200px] px-6
+    }
+
+    *::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: #374151;
+        border-radius: 5px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: #10b981;
+        border-radius: 14px;
+    }
+}
+
+body {
+    background: linear-gradient(130deg, #071216, #8c1f28) no-repeat;
+    background-size: cover;
+}
+
+//Pulse icon Button top
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+}
+
+@layer utilities {
+    .animate-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+}
+
+
+//border image profile
+@layer utilities {
+    @keyframes animate1 {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    .animate-animate1 {
+        animation: animate1 2s linear infinite;
+    }
+
+    @keyframes animate2 {
+        0% {
+            transform: translateY(-100%);
+        }
+
+        100% {
+            transform: translateY(100%);
+        }
+    }
+
+    .animate-animate2 {
+        animation: animate2 2s linear infinite 1s;
+    }
+
+    @keyframes animate3 {
+        0% {
+            transform: translateX(100%);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    .animate-animate3 {
+        animation: animate3 2s linear infinite;
+    }
+
+    @keyframes animate4 {
+        0% {
+            transform: translateY(100%);
+        }
+
+        100% {
+            transform: translateY(-100%);
+        }
+    }
+
+    .animate-animate4 {
+        animation: animate4 2s linear infinite 1s;
+    }
+}
