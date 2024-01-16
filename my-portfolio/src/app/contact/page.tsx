@@ -1,3 +1,4 @@
+'use client'
 import { TitleSection } from '@/components/TitleSection';
 import ContactForm from '@/components/contact-form/contact.form';
 import ContactList from '@/components/contact_list/contactList';

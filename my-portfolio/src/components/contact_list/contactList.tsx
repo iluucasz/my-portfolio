@@ -1,41 +1,29 @@
 import React from 'react'
-import { FaDiscord, FaGithub, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { CmsIcon } from '../csm-icon';
+import { TSocial } from '@/types/social-media';
+import useFetchHygraph from '@/context/useHygraph';
+import { useFetchData } from '@/hooks';
 
-type TContactList = {
-  url: string,
-  icon: string
-}
-
-const MOCK_CONTACT = [
-  {
-    url: "https://www.linkedin.com/in/lucas-santos-a35070146/",
-    icon: <FaLinkedinIn />
-  },
-  {
-    url: "https://wa.me/5521973165015",
-    icon: <FaWhatsapp />
-  },
-  {
-    url: "https://discord.gg/Nc9XhEPc",
-    icon: < FaDiscord />
-  },
-  {
-    url: "https://github.com/iluucasz",
-    icon: <FaGithub />
-  }
-]
 
 const ContactList = () => {
+
+  const getPageData = useFetchHygraph((state) => state.getPageData);
+  const { data: pageData } = useFetchData({ requestCallBack: getPageData })
+
+  const MOCK_CONTACT: TSocial[] = pageData?.socialMedias ?? [];
+
   return (
-    <div className='flex gap-11 p-5'>
+    <>
       {
-        MOCK_CONTACT.map((item, index) => {
+        MOCK_CONTACT?.map((item: TSocial, index) => {
           return (
-            <a key={index} href={item.url} className='text-slate-900 text-3xl hover:text-slate-800 transition-all hover:scale-105' target='_blank'>{item.icon}</a>
+            <a key={index} href={item.url} className='text-slate-900 text-3xl hover:text-slate-800 transition-all hover:scale-105' target='_blank'>
+              {<CmsIcon icon={item.iconSvg} />}
+            </a>
           )
         })
       }
-    </div>
+    </>
   )
 }
 

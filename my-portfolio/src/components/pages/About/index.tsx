@@ -1,55 +1,21 @@
 'use client'
 import Image from 'next/image';
 import React from 'react';
-import profile from "../../../../public/images/perfil2.png";
 import { MdKeyboardDoubleArrowDown, MdTripOrigin } from 'react-icons/md';
-import { FaDiscord, FaGithub, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { ListTechs } from '@/components/techs/list_techs';
 import ContactList from '@/components/contact_list/contactList';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
-
-const TECHS_LIST = [
-  {
-    name: "Typescript"
-  },
-  {
-    name: "React"
-  },
-  {
-    name: "NextJS"
-  },
-  {
-    name: "Prisma"
-  },
-  {
-    name: "PostgreSQL"
-  },
-];
-
-const MOCK_CONTACT = [
-  {
-    url: "https://www.linkedin.com/in/lucas-santos-a35070146/",
-    icon: <FaLinkedinIn />
-  },
-  {
-    url: "https://wa.me/5521973165015",
-    icon: <FaWhatsapp />
-  },
-  {
-    url: "https://discord.gg/Nc9XhEPc",
-    icon: < FaDiscord />
-  },
-  {
-    url: "https://github.com/iluucasz",
-    icon: <FaGithub />
-  }
-]
-
-const IAM_TECHS = ['Web', 'Full-Stack', 'Front-End', 'Typescript', 'React', 'NextJS'];
-
+import { RichText } from '@/components/rich-text';
+import useFetchHygraph from '@/context/useHygraph';
+import { useFetchData } from '@/hooks';
+import profile from "../../../../public/images/perfil.jpg";
 
 const About = () => {
+  const getPageData = useFetchHygraph((state) => state.getPageData);
+  const { data: pageData } = useFetchData({ requestCallBack: getPageData });
 
+  const getWriting = pageData?.iam.text ?? '';
+  let IAM_TECHS = getWriting.split(", ").map((s: string) => s.replace(/'/g, ""));
   const [writing] = useTypewriter({
     words: IAM_TECHS,
     loop: true,
@@ -58,6 +24,11 @@ const About = () => {
 
   });
 
+  //Text about me
+  const textAboutMe = pageData?.introduction.raw ?? [];
+
+  //image profile
+  const imageProfile = pageData?.profilePicture.url ?? profile;
 
   return (
     <section className='flex justify-center w-full h-full text-white'>
@@ -71,12 +42,9 @@ const About = () => {
             <Cursor cursorColor='black' cursorStyle="#" />
           </h3>
 
-          <p className='w-10/12 lg: max-w-[520px]'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Commodi quo quidem voluptatibus, corrupti eos ratione dolore
-            qui quisquam tenetur? Quis repudiandae necessitatibus earum totam
-            dolorem cumque tempore nemo quaerat enim.
-          </p>
+          <div className='w-full lg: max-w-[520px]'>
+            <RichText content={textAboutMe} />
+          </div>
           <div>
 
             <div className="relative hover:scale-105 bg-gradient-to-r from-[#3f171e] to-[#0f172a] shadow-xl">
@@ -84,22 +52,24 @@ const About = () => {
               <span className="absolute w-1 h-full top-0 right-0 bg-gradient-to-b from-[#3f171e] to-[#0f172a] animate-pulse delay-1000"></span>
               <span className="absolute w-full h-1 left-0 bottom-0 bg-gradient-to-l from-[#3f171e] to-[#0f172a] animate-pulse"></span>
               <span className="absolute w-1 h-full top-0 left-0 bg-gradient-to-t from-[#3f171e] to-[#0f172a] animate-pulse delay-1000"></span>
-              <Image src={profile} alt='imagem de perfil' className='max-w-[200px]' />
+              <Image
+                width={200}
+                height={200}
+                src={imageProfile}
+                alt='imagem de perfil'
+                className='w-[200px]'
+              />
             </div>
 
           </div>
 
-          <div className='flex flex-wrap gap-x-2 gap-y-3 lg:max-w-[800px]'>
-            {
-              TECHS_LIST.map((item) => {
-                return (
-                  <ListTechs key={item.name} label={item.name} />
-                )
-              })
-            }
+          <div className="flex flex-wrap gap-x-2 gap-y-3 lg:max-w-[800px]">
+            <ListTechs />
           </div>
 
-          <ContactList />
+          <div className='flex gap-11 p-5'>
+            <ContactList />
+          </div>
 
           <button className='w-36 h-10 p-2 mt-2 text-white bg-red-900 rounded-md transition-all hover:scale-105 hover:bg-red-800'>Baixar CV</button>
           <div className='flex flex-col items-center'>
