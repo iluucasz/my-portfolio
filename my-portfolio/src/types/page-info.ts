@@ -1,3 +1,4 @@
+import { TLight } from "./higthLigthProjects";
 import { TKnonTechs } from "./knownTechs"
 import { TSocial } from "./social-media"
 import { RichTextContent } from "@graphcms/rich-text-types";
@@ -10,11 +11,12 @@ export type HomePageInfo = {
     raw: RichTextContent
   }
   knownTechs: TKnonTechs[],
-  technologies: string[]
+  technologies: Omit<TKnonTechs[], 'startData'>,
   profilePicture: {
     url: string
   }
-  socialMedias: TSocial[]
+  socialMedias: TSocial[],
+  higthLigthProjects: TLight[],
 }
 
 export type HomePageData = {
