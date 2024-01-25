@@ -9,10 +9,11 @@ import { RichText } from '@/components/rich-text';
 import useFetchHygraph from '@/context/useHygraph';
 import { useFetchData } from '@/hooks';
 import profile from "../../../../public/images/perfil.jpg";
+import { HomePageInfo } from '@/types/page-info';
 
 const About = () => {
   const getPageData = useFetchHygraph((state) => state.getPageData);
-  const { data: pageData } = useFetchData({ requestCallBack: getPageData });
+  const { data: pageData } = useFetchData<HomePageInfo>({ requestCallBack: getPageData });
 
   const getWriting = pageData?.iam.text ?? '';
   let IAM_TECHS = getWriting.split(", ").map((s: string) => s.replace(/'/g, ""));

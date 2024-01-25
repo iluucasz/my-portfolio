@@ -1,9 +1,11 @@
+import { MyExperience } from '@/types/experience-info';
 import { HomePageInfo } from '@/types/page-info';
 import { fetchHygraphQuery } from '@/utils/fetch-hygraph-query';
+import { promises } from 'dns';
 import { create } from 'zustand';
 
 export const query = `
- query MyQuery {
+query MyQuery {
   page(where: {slug: "home"}) {
     iam {
       text
@@ -22,10 +24,44 @@ export const query = `
     profilePicture {
       url
     }
-     socialMedias {
+    socialMedias {
       iconSvg
       url
     }
+    higthLightProjects {
+      linkForGit
+      slug
+      shortDescription
+      title
+      dateProject
+      imageProject {
+        url
+      }
+      backgroudProject {
+        url
+      }
+      socialMedias {
+        name
+        iconSvg
+        url
+      }
+      technologies {
+        name
+        iconSvg
+      }
+    }
+  }
+  myExperiences {
+    dateEnd
+    dateStart
+    descriptionExperience
+    iconInstitute {
+      url
+    }
+    linkInstitute
+    nameInstitute
+    subtitle
+    titleInstitute
   }
 }
  `;
@@ -34,11 +70,14 @@ const revalidate = 60 * 60 * 24;
 
 interface TState {
   pageData: HomePageInfo | null;
+  experienceData: MyExperience[] | null; 
   getPageData: () => Promise<void>;
+  getExperienceData: () => Promise<void>;
 }
 
 const useFetchHygraph = create<TState>((set) => ({
   pageData: null,
+  experienceData: null,
 
   getPageData: async () => {
     try {
@@ -48,8 +87,17 @@ const useFetchHygraph = create<TState>((set) => ({
     } catch (error) {
       console.log(error);
     }
-  }
+  },
 
+  getExperienceData: async () =>{
+    try {
+      const data = await fetchHygraphQuery(query, revalidate);
+      set({experienceData: data.myExperience});
+      return data.myExperiences;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }),
 
 );
