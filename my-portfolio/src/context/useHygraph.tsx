@@ -1,7 +1,7 @@
 import { MyExperience } from '@/types/experience-info';
+import { TMySkills } from '@/types/mySkill-info';
 import { HomePageInfo } from '@/types/page-info';
 import { fetchHygraphQuery } from '@/utils/fetch-hygraph-query';
-import { promises } from 'dns';
 import { create } from 'zustand';
 
 export const query = `
@@ -63,6 +63,13 @@ query MyQuery {
     subtitle
     titleInstitute
   }
+  mySkills {
+    title
+    one
+    two
+    three
+    for
+  }
 }
  `;
 
@@ -71,13 +78,16 @@ const revalidate = 60 * 60 * 24;
 interface TState {
   pageData: HomePageInfo | null;
   experienceData: MyExperience[] | null; 
+  mySkills: TMySkills[] |null;
   getPageData: () => Promise<void>;
   getExperienceData: () => Promise<void>;
+  getMySkills: () => Promise<void>;
 }
 
 const useFetchHygraph = create<TState>((set) => ({
   pageData: null,
   experienceData: null,
+  mySkills: null,
 
   getPageData: async () => {
     try {
@@ -94,6 +104,16 @@ const useFetchHygraph = create<TState>((set) => ({
       const data = await fetchHygraphQuery(query, revalidate);
       set({experienceData: data.myExperience});
       return data.myExperiences;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  getMySkills: async ()=>{
+    try {
+      const data = await fetchHygraphQuery(query, revalidate);
+      set({mySkills: data.mySkills});
+      return data.mySkills;
     } catch (error) {
       console.log(error);
     }
