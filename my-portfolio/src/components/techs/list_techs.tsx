@@ -18,7 +18,7 @@ export const ListTechs = () => {
             {
                 TECHS_LIST.map((item: ItemListTechs) => {
                     return (
-                        <span key={item.name} className='flex items-center justify-center p-4 w-28 h-10 bg-slate-900 text-slate-400 rounded-md cursor-pointer hover:text-slate-200'>
+                        <span key={item.name} className='flex items-center justify-center p-4 w-28 h-10 bg-slate-900 text-slate-400 rounded-md cursor-pointer hover:text-slate-200 '>
                             {item.name}
                         </span>
                     )

@@ -5,6 +5,7 @@ import { Header } from '@/components/header';
 import BackToTop from '@/components/back-to-top';
 import { Suspense } from 'react';
 import LoandingPage from './loanding';
+import Toaster from '@/components/toast';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,6 +19,7 @@ export default function RootLayout({children,}: {children: React.ReactNode}) {
     <html lang="pt-BR">
       <body className={inter.className}>
         <BackToTop />
+        <Toaster/>
         <Header />
         <Suspense fallback={<LoandingPage/>}>
         {children}
