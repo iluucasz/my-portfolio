@@ -9,7 +9,6 @@ const ListSkills = () => {
   const {data: mySkills} = useFetchData<TMySkills[]>({requestCallBack: getMySkills});
   
   const MY_SKILLS = mySkills;
-  console.log(mySkills);
 
   return (
     <>

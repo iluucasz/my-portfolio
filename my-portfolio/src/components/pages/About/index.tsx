@@ -1,4 +1,5 @@
 'use client'
+import { useLayoutEffect } from 'react';
 import Image from 'next/image';
 import React from 'react';
 import { MdKeyboardDoubleArrowDown, MdTripOrigin } from 'react-icons/md';
@@ -10,6 +11,8 @@ import useFetchHygraph from '@/context/useHygraph';
 import { useFetchData } from '@/hooks';
 import profile from "../../../../public/images/perfil.jpg";
 import { HomePageInfo } from '@/types/page-info';
+import {gsap} from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const About = () => {
   const getPageData = useFetchHygraph((state) => state.getPageData);
@@ -31,10 +34,24 @@ const About = () => {
   //image profile
   const imageProfile = pageData?.profilePicture.url ?? profile;
 
+  //animation gsap
+  useLayoutEffect(()=>{
+    gsap.to('#div_profile',{
+      x: 0,
+      opacity: 1,
+    });
+    // gsap.to('#list_tech', {
+    //   x:
+    // })
+  },[])
+
+
   return (
     <section className='flex justify-center w-full h-full text-white'>
-      <div className='container flex flex-col justify-center items-center'>
-        <div className='flex flex-col items-center justify-center gap-8 p-8'>
+      <div className='container flex flex-col justify-center items-center translate-x-12 opacity-0' id='div_profile'>
+        <div
+         className='flex flex-col items-center justify-center gap-8 p-8'
+        >
 
           <h4 className='text-xl font-medium'>&lt;Lucas S Santos &frasl;&gt;</h4>
           <h3 className='text-3xl font-bold w-[600px]'>
@@ -65,7 +82,7 @@ const About = () => {
           </div>
 
           <div className="flex flex-wrap gap-x-2 gap-y-3 lg:max-w-[800px]">
-            <ListTechs />
+            <ListTechs/>
           </div>
 
           <div className='flex gap-11 p-5'>
