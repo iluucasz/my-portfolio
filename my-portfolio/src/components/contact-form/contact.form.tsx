@@ -7,15 +7,23 @@ import { TbMessage } from "react-icons/tb";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ContactFormSchema, TContactForm } from '@/schemas/contact_form.schema';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm<TContactForm>({
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<TContactForm>({
     resolver: zodResolver(ContactFormSchema)
   });
 
-  const onSubmit = (data: TContactForm) => {
-    console.log(data);
+  const onSubmit = async (data: TContactForm) => {
+   try {
+    await axios.post('/api/contact/', data)
+    toast.success('Mensagem Enviada com sucesso!')
+    reset()
+   } catch (error) {
+    toast.error(`${error}`);
+   }
   }
 
   return (
@@ -43,7 +51,7 @@ const ContactForm = () => {
 
       </div>
 
-      <button type='submit' className='flex items-center justify-center gap-1 ml-auto p-2 h-14 w-24 font-medium rounded-sm border-1 border-red-900 bg-slate-900 text-slate-400 hover:text-white'>
+      <button type='submit' className='flex items-center justify-center gap-1 ml-auto p-2 h-14 w-24 font-medium rounded-sm border-1 border-red-950 bg-slate-900 text-slate-400 hover:text-white' disabled={isSubmitting}>
         Enviar
         <IoMdSend />
       </button>
