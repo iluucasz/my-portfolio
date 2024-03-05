@@ -8,7 +8,7 @@ import { Footer } from "@/components/footer";
 import Skills from "@/components/pages/skills";
 
 
-export default async function Home() {
+export default function Home() {
 
   return (
     <>

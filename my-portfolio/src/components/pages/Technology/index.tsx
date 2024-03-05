@@ -7,7 +7,7 @@ const Technology = () => {
   return (
     <>
       <TitleSection name='Tecnologias' />
-      <section className='flex flex-col items-center justify-center h-[755px]'>
+      <section className='flex flex-col items-center mt-20 h-[480px]'>
         <div className='grid grid-cols-3 gap-4 lg:max-w-[900px]'>
           <Techs />
         </div>

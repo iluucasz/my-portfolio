@@ -76,43 +76,55 @@ query MyQuery {
 const revalidate = 60 * 60 * 24;
 
 interface TState {
+  isLoading: boolean
+  setIsLoading: (isLoading: boolean) => void;
   pageData: HomePageInfo | null;
-  experienceData: MyExperience[] | null; 
-  mySkills: TMySkills[] |null;
+  experienceData: MyExperience[] | null;
+  mySkills: TMySkills[] | null;
   getPageData: () => Promise<void>;
   getExperienceData: () => Promise<void>;
   getMySkills: () => Promise<void>;
 }
 
-const useFetchHygraph = create<TState>((set) => ({
+const useFetchHygraph = create<TState>((set, get) => ({
+  isLoading: false,
   pageData: null,
   experienceData: null,
   mySkills: null,
 
+  setIsLoading(isLoading) {
+    set({ isLoading })
+  },
+
   getPageData: async () => {
+    const { setIsLoading } = get()
     try {
+      setIsLoading(true)
       const data = await fetchHygraphQuery(query, revalidate);
       set({ pageData: data.page });
       return data.page;
     } catch (error) {
-      console.log(error);
+
+      return error;
+    } finally {
+      setIsLoading(false)
     }
   },
 
-  getExperienceData: async () =>{
+  getExperienceData: async () => {
     try {
       const data = await fetchHygraphQuery(query, revalidate);
-      set({experienceData: data.myExperience});
+      set({ experienceData: data.myExperience });
       return data.myExperiences;
     } catch (error) {
       console.log(error);
     }
   },
 
-  getMySkills: async ()=>{
+  getMySkills: async () => {
     try {
       const data = await fetchHygraphQuery(query, revalidate);
-      set({mySkills: data.mySkills});
+      set({ mySkills: data.mySkills });
       return data.mySkills;
     } catch (error) {
       console.log(error);

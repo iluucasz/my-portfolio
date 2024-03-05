@@ -37,7 +37,7 @@ const NAV_ITEMS = [
 
 
 export const Header = () => {
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
 
     return (
         <>

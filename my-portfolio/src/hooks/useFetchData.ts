@@ -1,19 +1,23 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
 
 export type UseFetchDataProps<T> = {
-  requestCallBack: () => Promise<any>
-}
+   requestCallBack: () => Promise<any>;
+};
 
-export const useFetchData = <T> ({ requestCallBack }: UseFetchDataProps<T>): {data: T | null} => {
-  const [data, setData] = useState<undefined | any>()
+export const useFetchData = <T>({ requestCallBack }: UseFetchDataProps<T>): { data: T | null; isLoading: boolean } => {
+   const [ data, setData ] = useState<T | null>(null);
+   const [ isLoading, setIsLoading ] = useState(false);
 
-  useEffect(() => {
-    const fetchCallBack = async () => {
-      const response = await requestCallBack();
-      setData(response)
-    }
-    fetchCallBack();
-  }, [requestCallBack])
+   useEffect(() => {
+      setIsLoading(true);
+      requestCallBack()
+         .then(response => {
+            setData(response.data);
+         })
+         .finally(() => {
+            setIsLoading(false);
+         });
+   }, [ requestCallBack ]);
 
-  return { data }
-}
+   return { data, isLoading };
+};
