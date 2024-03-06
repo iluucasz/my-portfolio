@@ -1,5 +1,5 @@
-'use client'
-import React, { useCallback, useEffect, useState } from 'react';
+"use client";
+import React, { useCallback, useEffect, useState } from "react";
 import { IoMdArrowRoundUp } from "react-icons/io";
 
 const BackToTop = () => {
@@ -18,7 +18,7 @@ const BackToTop = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   };
 
@@ -31,10 +31,10 @@ const BackToTop = () => {
   }, [toggleVisibility]);
 
   return (
-    <div className='fixed right-4 bottom-6 z-20'>
+    <div className="fixed right-4 bottom-6 z-20">
       {isVisible && (
         <button
-          className='text-red-900 rounded-full bg-slate-900'
+          className="text-red-900 rounded-full bg-slate-900"
           onClick={scrollToTop}
         >
           <IoMdArrowRoundUp size={40} />
@@ -42,6 +42,6 @@ const BackToTop = () => {
       )}
     </div>
   );
-}
+};
 
 export default BackToTop;
