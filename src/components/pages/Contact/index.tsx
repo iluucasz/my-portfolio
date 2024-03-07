@@ -1,3 +1,4 @@
+import { TPageDataProp } from '@/app/page'
 import { TitleSection } from '@/components/TitleSection'
 import ContactForm from '@/components/contact-form/contact.form'
 import React from 'react'

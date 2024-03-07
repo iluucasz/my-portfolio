@@ -1,8 +1,5 @@
-import useFetchHygraph from '@/context/useHygraph';
-import { useFetchData } from '@/hooks';
-import { MyExperience } from '@/types/experience-info';
-import Image, { StaticImageData } from 'next/image'
-import React from 'react'
+import { TPageDataProp } from '@/app/page';
+import { StaticImageData } from 'next/image';
 
 type TExperienceItem = {
   src: string | StaticImageData;
@@ -12,16 +9,13 @@ type TExperienceItem = {
   description: string
 }
 
-const ExperienceItem = () => {
+const ExperienceItem = ({ pageData }: TPageDataProp) => {
 
-  const getExperience = useFetchHygraph((state) => state.getExperienceData);
-  const {data : experienceData} = useFetchData<MyExperience[]>({requestCallBack: getExperience});
-  
- const LIST_EXPERIENCE = experienceData;
+  //  const LIST_EXPERIENCE = experienceData;
 
   return (
     <>
-    {
+      {/* {
       LIST_EXPERIENCE?.map((item)=>{
         return(
           <>
@@ -48,7 +42,7 @@ const ExperienceItem = () => {
           </>
         )
       })
-    }
+    } */}
     </>
   )
 }

@@ -1,18 +1,13 @@
-'use client'
-import useFetchHygraph from '@/context/useHygraph'
+import { TPageDataProp } from '@/app/page';
 import { useFetchData } from '@/hooks';
 import { TMySkills } from '@/types/mySkill-info';
 import React from 'react'
 
-const ListSkills = () => {
-  const getMySkills = useFetchHygraph((state)=> state.getMySkills);
-  const {data: mySkills} = useFetchData<TMySkills[]>({requestCallBack: getMySkills});
-  
-  const MY_SKILLS = mySkills;
+const ListSkills = ({ pageData }: TPageDataProp) => {
 
   return (
     <>
-    {
+      {/* {
       MY_SKILLS?.map((item)=>{
         return(
           <>
@@ -28,7 +23,7 @@ const ListSkills = () => {
           </>
         )
       })
-    }
+    } */}
     </>
   )
 }

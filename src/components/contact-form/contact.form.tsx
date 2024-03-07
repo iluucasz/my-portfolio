@@ -17,13 +17,13 @@ const ContactForm = () => {
   });
 
   const onSubmit = async (data: TContactForm) => {
-   try {
-    await axios.post('/api/contact/', data)
-    toast.success('Mensagem Enviada com sucesso!')
-    reset()
-   } catch (error) {
-    toast.error(`${error}`);
-   }
+    try {
+      await axios.post('/api/contact/', data)
+      toast.success('Mensagem Enviada com sucesso!')
+      reset()
+    } catch (error) {
+      toast.error(`${error}`);
+    }
   }
 
   return (

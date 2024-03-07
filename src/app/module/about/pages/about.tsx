@@ -1,35 +1,30 @@
-"use client";
+'use client'
+import { TPageDataProp } from "@/app/page";
 import { RichText } from "@/components/rich-text";
-import useFetchHygraph from "@/context/useHygraph";
-import { useEffect, useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import Image from "next/image";
+import { useLayoutEffect } from "react";
+import { MdKeyboardDoubleArrowDown, MdTripOrigin } from "react-icons/md";
+import { Cursor, useTypewriter } from 'react-simple-typewriter';
 
-export const About = () => {
-  const pageData = useFetchHygraph((state) => state.pageData);
-  const isLoading = useFetchHygraph((state) => state.isLoading);
 
-  console.log(pageData);
+export const About = ({ pageData }: TPageDataProp) => {
+  let getWriting = pageData?.iam.text ?? '';
 
-  console.log(isLoading, " isLoading");
+  let IAM_TECHS = getWriting.split(", ").map((s: string) => s.replace(/'/g, ""));
+  const [writing] = useTypewriter({
+    words: IAM_TECHS,
+    loop: true,
+    typeSpeed: 200,
+    deleteSpeed: 100,
 
-  // const getWriting = pageData?.iam.text ?? '';
-  // let IAM_TECHS = getWriting.split(", ").map((s: string) => s.replace(/'/g, ""));
-  // const [writing] = useTypewriter({
-  //   words: IAM_TECHS,
-  //   loop: true,
-  //   typeSpeed: 200,
-  //   deleteSpeed: 100,
-
-  // });
+  });
 
   //Text about me
   const textAboutMe = pageData?.introduction.raw ?? [];
 
   //image profile
   const imageProfile = pageData?.profilePicture.url ?? "";
-
-  console.log(imageProfile, " imageProfile");
 
   //animation gsap
   useLayoutEffect(() => {
@@ -39,10 +34,6 @@ export const About = () => {
     });
   }, []);
 
-
-  if (isLoading) {
-    return <div className="text-white text-4xl text-center">Loading...</div>;
-  }
 
   return (
     <section className="flex justify-center text-white">
@@ -56,8 +47,8 @@ export const About = () => {
           </h4>
           <h3 className="text-2xl font-bold h-20 w-[300px] md:w-full md:3xl">
             Eu sou um Desenvolvedor
-            {/* <span className='ml-2 text-red-900 font-black'>{writing}</span> */}
-            {/* <Cursor cursorColor='black' cursorStyle="#" /> */}
+            <span className='ml-2 text-red-900 font-black'>{writing}</span>
+            <Cursor cursorColor='black' cursorStyle="#" />
           </h3>
 
           <div className="w-full lg: max-w-[520px]">
@@ -83,7 +74,7 @@ export const About = () => {
           </div>
 
           <div className="flex flex-wrap gap-x-2 gap-y-3 lg:max-w-[800px]">
-            {/* <ListTechs /> */}
+
           </div>
 
           <div className="flex gap-11 p-5">{/* <ContactList /> */}</div>
@@ -92,8 +83,8 @@ export const About = () => {
             Baixar CV
           </button>
           <div className="flex flex-col items-center">
-            {/* <MdTripOrigin size={30} className="cursor-pointer" />
-            <MdKeyboardDoubleArrowDown size={50} className="cursor-pointer" /> */}
+            <MdTripOrigin size={30} className="cursor-pointer" />
+            <MdKeyboardDoubleArrowDown size={50} className="cursor-pointer" />
           </div>
         </div>
       </div>

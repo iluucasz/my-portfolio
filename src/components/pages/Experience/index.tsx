@@ -1,18 +1,12 @@
 'use client'
 import { TitleSection } from '@/components/TitleSection';
-import React from 'react'
-import useFetchHygraph from '@/context/useHygraph';
-import { useFetchData } from '@/hooks';
-import { MyExperience } from '@/types/experience-info';
 import ExperienceItem from './experience_item';
+import { TPageDataProp } from '@/app/page';
 
 
-const Experience = () => {
+const Experience = ({ pageData }: TPageDataProp) => {
 
-  const getExperience = useFetchHygraph((state) => state.getExperienceData);
-  const { data: experienceData } = useFetchData<MyExperience[]>({ requestCallBack: getExperience });
-
-  const subTitle = experienceData ? experienceData[0].subtitle : null;
+  // const subTitle = experienceData ? experienceData[0].subtitle : null;
 
   return (
     <section className="flex flex-col h-[755px]">
@@ -23,11 +17,11 @@ const Experience = () => {
 
         <div className='flex flex-col gap-2 max-w-[380px]'>
           <h3 className='text-white font-semibold text-2xl text-center'>Formação e experiência</h3>
-          <p className='font-normal text-lg text-center text-blue-400'>{subTitle}</p>
+          {/* <p className='font-normal text-lg text-center text-blue-400'>{subTitle}</p> */}
         </div>
 
         <div className='flex flex-col gap-4'>
-          <ExperienceItem />
+          <ExperienceItem pageData={pageData} />
         </div>
 
       </div>
