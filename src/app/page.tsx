@@ -15,6 +15,7 @@ import About from "../components/pages/About";
 
 export type TPageDataProp = {
   pageData: HomePageInfo
+  id?: string
 }
 export type TExperienceDataProp = {
   experienceData: TMyExperience[]

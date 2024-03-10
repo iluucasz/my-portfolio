@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MdKeyboardDoubleArrowDown, MdTripOrigin } from "react-icons/md";
 import { Cursor } from 'react-simple-typewriter';
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
 export const About = ({ pageData }: TPageDataProp) => {
@@ -21,6 +23,12 @@ export const About = ({ pageData }: TPageDataProp) => {
 
   //animation writting
   useEffect(() => {
+    gsap.to("#translate", {
+      x: 0,
+      y: 0,
+      opacity: 1,
+    });
+
     let count = 0;
     let index = 0
     const textInterval = setInterval(() => {
@@ -40,7 +48,7 @@ export const About = ({ pageData }: TPageDataProp) => {
         count = 0;
       }
     }, 400)
-    return () => { clearInterval(textInterval) }
+    return () => { clearInterval(textInterval), gsap.killTweensOf("#translate") }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,16 +56,16 @@ export const About = ({ pageData }: TPageDataProp) => {
     <section className="flex justify-center items-center text-white min-h-screen">
       <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col items-center justify-center gap-8 p-8">
-          <h4 className="text-xl font-medium">
+          <h4 className="text-xl font-medium translate-x-full opacity-0" id="translate">
             &lt;Lucas S Santos &frasl;&gt;
           </h4>
-          <h3 className="text-2xl font-bold h-20 w-[300px] md:w-full md:text-4xl">
+          <h3 className="text-2xl font-bold h-20 w-[300px] translate-x-full opacity-0 md:w-full md:text-4xl" id="translate">
             Eu sou um Desenvolvedor
-            <span className='ml-2 text-red-900 font-black'>{text}</span>
+            <span className='ml-2 text-red-900 font-black translate-y-full opacity-0' id="translate">{text}</span>
             <Cursor cursorColor='black' cursorStyle="#" />
           </h3>
 
-          <div className="w-[360px] text-xl md:w-full md:text-2xl lg:w-[600px]">
+          <div className="w-[360px] text-xl md:w-full translate-y-full opacity-0 md:text-2xl lg:w-[600px]" id="translate">
             <RichText content={textAboutMe} />
           </div>
           <div>
@@ -73,7 +81,8 @@ export const About = ({ pageData }: TPageDataProp) => {
                   height={200}
                   src={imageProfile}
                   alt="imagem de perfil"
-                  className="w-[200px]"
+                  className="w-[200px] translate-y-full opacity-0"
+                  id="translate"
                 />
               )}
             </div>

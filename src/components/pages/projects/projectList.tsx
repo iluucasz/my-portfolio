@@ -31,7 +31,7 @@ const ProjectList = ({ pageData }: TPageDataProp) => {
           {openModalId === index && (
             <ModalExperience item={item} setOpen={() => setOpenModalId(null)} key={0} />
           )}
-          <div className="group relative cursor-pointer items-center justify-center rounded-xl overflow-hidden transition-shadow hover:shadow-xl border-2 border-transparent hover:border-2 hover:border-red-900 hover:shadow-black/30">
+          <div className="group relative cursor-pointer items-center justify-center rounded-xl overflow-hidden transition-shadow hover:shadow-xl border-2 border-transparent hover:border-2 hover:border-red-900 hover:shadow-black/30 -translate-x-full opacity-0" id='ScrollProject'>
             <div className="h-96 w-72">
               <Image
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
