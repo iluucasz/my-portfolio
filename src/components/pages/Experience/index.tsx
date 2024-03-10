@@ -1,31 +1,30 @@
 'use client'
 import { TitleSection } from '@/components/TitleSection';
 import ExperienceItem from './experience_item';
-import { TPageDataProp } from '@/app/page';
+import { TExperienceDataProp } from '@/app/page';
 
 
-const Experience = ({ pageData }: TPageDataProp) => {
-
-  // const subTitle = experienceData ? experienceData[0].subtitle : null;
+const Experience = ({ experienceData }: TExperienceDataProp) => {
+  const subTitle = experienceData[0]?.subtitle;
 
   return (
-    <section className="flex flex-col h-[755px]">
-
+    <>
       <TitleSection name='Experiência' />
+      <section className="flex flex-col items-center min-h-[755px] py-8">
+        <div className="flex flex-col justify-center gap-6">
 
-      <div className="flex flex-col justify-center gap-6 mt-20">
+          <div className='flex flex-col gap-2 mt-20 w-[380px] lg:w-[500px]'>
+            <h3 className='text-white font-semibold text-2xl text-center lg:text-4xl'>Formação e experiência</h3>
+            <p className='font-normal text-lg text-center text-blue-400'>{subTitle}</p>
+          </div>
 
-        <div className='flex flex-col gap-2 max-w-[380px]'>
-          <h3 className='text-white font-semibold text-2xl text-center'>Formação e experiência</h3>
-          {/* <p className='font-normal text-lg text-center text-blue-400'>{subTitle}</p> */}
+          <div className='flex flex-col gap-4 mt-10 w-[380px]'>
+            <ExperienceItem experienceData={experienceData} />
+          </div>
+
         </div>
-
-        <div className='flex flex-col gap-4'>
-          <ExperienceItem pageData={pageData} />
-        </div>
-
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
 

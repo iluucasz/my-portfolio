@@ -25,10 +25,9 @@ export default function RootLayout({
         <BackToTop />
         <Toaster />
         <Header />
-        <LoandingPage />
-        {/* <Suspense fallback={}> */}
-        {children}
-        {/* </Suspense> */}
+        <Suspense fallback={<LoandingPage />}>
+          {children}
+        </Suspense>
       </body>
     </html>
   );

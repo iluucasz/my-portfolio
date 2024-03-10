@@ -1,4 +1,3 @@
-import style from "./style.module.scss";
 import { FcLike } from "react-icons/fc";
 
 export const Footer = () => {

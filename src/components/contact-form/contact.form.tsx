@@ -1,13 +1,12 @@
 'use client'
-import React from 'react';
-import { IoMdSend } from "react-icons/io";
+import { ContactFormSchema, TContactForm } from '@/schemas/contact_form.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
 import { BiMailSend } from "react-icons/bi";
+import { IoMdSend } from "react-icons/io";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { TbMessage } from "react-icons/tb";
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ContactFormSchema, TContactForm } from '@/schemas/contact_form.schema';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const ContactForm = () => {

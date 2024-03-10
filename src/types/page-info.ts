@@ -1,5 +1,7 @@
+import { TMyExperience } from './experience-info';
 import { TLight } from './higthLigthProjects';
 import { TKnownTechs } from './knownTechs';
+import { TMySkills } from './mySkill-info';
 import { TSocial } from './social-media';
 import { RichTextContent } from '@graphcms/rich-text-types';
 
@@ -11,7 +13,9 @@ export type HomePageInfo = {
       raw: RichTextContent;
    };
    knownTechs: TKnownTechs[];
-   technologies: Omit<TKnownTechs[], 'startData'>;
+   technologies: {
+      name: string;
+   };
    profilePicture: {
       url: string;
    };
@@ -21,4 +25,6 @@ export type HomePageInfo = {
 
 export type HomePageData = {
    page: HomePageInfo;
+   myExperiences: TMyExperience[];
+   mySkills: TMySkills[];
 };

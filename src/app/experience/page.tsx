@@ -1,12 +1,11 @@
 import Experience from '@/components/pages/Experience';
-import React from 'react'
+import { getPageData } from '@/context/useHygraph';
 
-const ExperiencePage = () => {
+export default async function ExperiencePage() {
+  const { myExperiences: experienceData } = await getPageData();
   return (
     <>
-      <Experience />
+      <Experience experienceData={experienceData} />
     </>
   )
 }
-
-export default ExperiencePage;

@@ -1,12 +1,11 @@
 import Technology from '@/components/pages/Technology';
-import React from 'react'
+import { getPageData } from '@/context/useHygraph';
 
-const TechnologyPage = () => {
+export default async function TechnologyPage() {
+  const { page: pageData } = await getPageData();
   return (
-    <div>
-      <Technology />
+    <div className='w-full h-full'>
+      <Technology pageData={pageData} />
     </div>
   )
 }
-
-export default TechnologyPage;

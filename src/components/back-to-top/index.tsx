@@ -1,11 +1,10 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IoMdArrowRoundUp } from "react-icons/io";
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Function to handle scroll and determine if button should be visible
   const toggleVisibility = useCallback(() => {
     if (window.scrollY > 600) {
       setIsVisible(true);
@@ -14,7 +13,6 @@ const BackToTop = () => {
     }
   }, []);
 
-  // Function to handle the click and scroll to top smoothly
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -34,7 +32,7 @@ const BackToTop = () => {
     <div className="fixed right-4 bottom-6 z-20">
       {isVisible && (
         <button
-          className="text-red-900 rounded-full bg-slate-900"
+          className="text-red-900 rounded-full bg-slate-900 shadow-2xl"
           onClick={scrollToTop}
         >
           <IoMdArrowRoundUp size={40} />

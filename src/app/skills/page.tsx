@@ -1,12 +1,11 @@
 import Skills from '@/components/pages/skills';
-import React from 'react'
+import { getPageData } from '@/context/useHygraph';
 
-const SkillsPage = () => {
+export default async function SkillsPage() {
+  const { mySkills: mySkillsData } = await getPageData()
   return (
     <>
-      <Skills />
+      <Skills mySkillsData={mySkillsData} />
     </>
   )
 }
-
-export default SkillsPage;

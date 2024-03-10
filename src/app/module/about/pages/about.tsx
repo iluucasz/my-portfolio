@@ -1,57 +1,63 @@
 'use client'
 import { TPageDataProp } from "@/app/page";
+import ContactList from "@/components/contact_list/contactList";
 import { RichText } from "@/components/rich-text";
-import gsap from "gsap";
 import Image from "next/image";
-import { useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdKeyboardDoubleArrowDown, MdTripOrigin } from "react-icons/md";
-import { Cursor, useTypewriter } from 'react-simple-typewriter';
+import { Cursor } from 'react-simple-typewriter';
 
 
 export const About = ({ pageData }: TPageDataProp) => {
   let getWriting = pageData?.iam.text ?? '';
 
-  let IAM_TECHS = getWriting.split(", ").map((s: string) => s.replace(/'/g, ""));
-  const [writing] = useTypewriter({
-    words: IAM_TECHS,
-    loop: true,
-    typeSpeed: 200,
-    deleteSpeed: 100,
+  const textList = getWriting.replace(/'/g, "").split(", ")
 
-  });
-
-  //Text about me
   const textAboutMe = pageData?.introduction.raw ?? [];
 
-  //image profile
   const imageProfile = pageData?.profilePicture.url ?? "";
 
-  //animation gsap
-  useLayoutEffect(() => {
-    gsap.to("#div_profile", {
-      x: 0,
-      opacity: 1,
-    });
+  const [text, setText] = useState('');
+
+  //animation writting
+  useEffect(() => {
+    let count = 0;
+    let index = 0
+    const textInterval = setInterval(() => {
+      const currentText = textList[index]
+      const characterList = currentText.split("")
+      if (count < characterList.length) {
+        const newC = characterList[count];
+        setText((text) => text + newC)
+        count++;
+      } else {
+        if (index < textList.length - 1) {
+          index++
+        } else {
+          index = 0
+        }
+        setText("");
+        count = 0;
+      }
+    }, 400)
+    return () => { clearInterval(textInterval) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   return (
-    <section className="flex justify-center text-white">
-      <div
-        className="container flex flex-col justify-center items-center translate-x-12 opacity-1"
-        id="div_profile"
-      >
+    <section className="flex justify-center items-center text-white min-h-screen">
+      <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col items-center justify-center gap-8 p-8">
           <h4 className="text-xl font-medium">
             &lt;Lucas S Santos &frasl;&gt;
           </h4>
-          <h3 className="text-2xl font-bold h-20 w-[300px] md:w-full md:3xl">
+          <h3 className="text-2xl font-bold h-20 w-[300px] md:w-full md:text-4xl">
             Eu sou um Desenvolvedor
-            <span className='ml-2 text-red-900 font-black'>{writing}</span>
+            <span className='ml-2 text-red-900 font-black'>{text}</span>
             <Cursor cursorColor='black' cursorStyle="#" />
           </h3>
 
-          <div className="w-full lg: max-w-[520px]">
+          <div className="w-[360px] text-xl md:w-full md:text-2xl lg:w-[600px]">
             <RichText content={textAboutMe} />
           </div>
           <div>
@@ -73,14 +79,14 @@ export const About = ({ pageData }: TPageDataProp) => {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-x-2 gap-y-3 lg:max-w-[800px]">
-
+          <div className="flex gap-11 p-5">
+            <ContactList pageData={pageData} />
           </div>
 
-          <div className="flex gap-11 p-5">{/* <ContactList /> */}</div>
-
-          <button className="w-36 h-10 p-2 mt-2 text-white bg-red-900 rounded-md transition-all hover:scale-105 hover:bg-red-800">
-            Baixar CV
+          <button className="w-36 h-10 p-2 text-white bg-red-900 rounded-md transition-all hover:scale-105 hover:bg-red-800">
+            <a href="https://docs.google.com/document/d/1pmIcwyN3nTWk0yUV51qu93IRra1qkXUwayKVQqqPYY0/edit?usp=sharing" target="_blank">
+              <p className="text-lg">Baixar CV</p>
+            </a>
           </button>
           <div className="flex flex-col items-center">
             <MdTripOrigin size={30} className="cursor-pointer" />
