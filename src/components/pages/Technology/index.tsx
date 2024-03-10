@@ -27,8 +27,8 @@ const Technology = ({ pageData }: TPageDataProp) => {
   return (
     <>
       <TitleSection name='Tecnologias' />
-      <section className='flex justify-center items-center h-screen min-h-screen'>
-        <div className='grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4 lg:max-w-[900px]' id='areaTech' >
+      <section className='flex justify-center items-center w-full h-screen min-h-screen overflow-hidden'>
+        <div className='grid grid-cols-2 gap-2 w-full md:grid-cols-3 md:gap-4 lg:max-w-[900px] ' id='areaTech' >
           <Techs pageData={pageData} />
         </div>
       </section>

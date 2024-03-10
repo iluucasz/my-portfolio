@@ -54,18 +54,18 @@ export const About = ({ pageData }: TPageDataProp) => {
 
   return (
     <section className="flex justify-center items-center text-white min-h-screen">
-      <div className="flex flex-col justify-center items-center">
-        <div className="flex flex-col items-center justify-center gap-8 p-8">
+      <div className="flex flex-col justify-center items-center w-full">
+        <div className="flex flex-col items-center justify-center gap-8 p-8 w-full">
           <h4 className="text-xl font-medium translate-x-full opacity-0" id="translate">
             &lt;Lucas S Santos &frasl;&gt;
           </h4>
-          <h3 className="text-2xl font-bold h-20 w-[300px] translate-x-full opacity-0 md:w-full md:text-4xl" id="translate">
+          <h3 className="flex justify-center items-center w-[300px] text-2xl font-bold h-20  translate-x-full opacity-0 md:w-full md:text-4xl" id="translate">
             Eu sou um Desenvolvedor
             <span className='ml-2 text-red-900 font-black translate-y-full opacity-0' id="translate">{text}</span>
             <Cursor cursorColor='black' cursorStyle="#" />
           </h3>
 
-          <div className="w-[360px] text-xl md:w-full translate-y-full opacity-0 md:text-2xl lg:w-[600px]" id="translate">
+          <div className="w-full text-xl md:w-full translate-y-full opacity-0 md:text-2xl lg:w-[600px]" id="translate">
             <RichText content={textAboutMe} />
           </div>
           <div>
