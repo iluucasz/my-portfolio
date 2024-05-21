@@ -10,14 +10,6 @@ query MyQuery {
     introduction {
       raw
     }
-    knownTechs {
-      name
-      iconSvg
-      startDate
-    }
-    technologies {
-      name
-    }
     profilePicture {
       url
     }
@@ -25,7 +17,7 @@ query MyQuery {
       iconSvg
       url
     }
-    highLightProjects {
+    highLightProjects(first: 30) {
       linkForGit
       slug
       shortDescription
@@ -43,9 +35,15 @@ query MyQuery {
         url
       }
       technologies {
-        name
         iconSvg
+        name
+        startDate
       }
+    }
+    knownTechs(first: 30) {
+      name
+      iconSvg
+      startDate
     }
   }
   myExperiences {
@@ -67,14 +65,16 @@ query MyQuery {
     three
     for
   }
+  technologies(first: 30) {
+    iconSvg
+    name
+    startDate
+  }
 }
  `;
 
-const revalidate = 60 * 60 * 24;
-
 export const getPageData = async (): Promise<HomePageData> => {
   return fetchHygraphQuery(
-    query,
-    revalidate
+    query
   )
 }

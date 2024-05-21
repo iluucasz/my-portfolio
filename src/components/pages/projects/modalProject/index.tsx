@@ -11,8 +11,8 @@ type TItemProp = {
 
 const ModalExperience = ({ item, key, setOpen }: TItemProp & { setOpen: (open: boolean) => void }) => {
 
-  const List_Tech = item.technologies;
-  const List_Socical = item.socialMedias;
+  const List_Tech = item.technologies || [];
+  const List_Socical = item.socialMedias || [];
 
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center bg-gray-950/30 " key={key}>
