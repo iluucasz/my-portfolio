@@ -15,6 +15,20 @@ const ExperienceItem = ({ experienceData, cardRefs, onCardMouseMove, onCardMouse
 
   const LIST_EXPERIENCE = experienceData;
 
+  /** Formats "yyyy-mm-dd" or "dd/mm/yyyy" etc. into "dd/mm/yyyy" */
+  const formatDate = (date: string | null | undefined): string => {
+    if (!date || !date.trim()) return 'Atual';
+    // Try to parse as a Date
+    const parsed = new Date(date);
+    if (!isNaN(parsed.getTime())) {
+      const d = String(parsed.getUTCDate()).padStart(2, '0');
+      const m = String(parsed.getUTCMonth() + 1).padStart(2, '0');
+      const y = parsed.getUTCFullYear();
+      return `${d}/${m}/${y}`;
+    }
+    return date; // fallback: return as-is
+  };
+
   return (
     <>
       {
@@ -88,9 +102,11 @@ const ExperienceItem = ({ experienceData, cardRefs, onCardMouseMove, onCardMouse
                     isEven ? 'md:justify-end' : ''
                   }`}>
                     <MdOutlineCalendarToday className='text-red-800' />
-                    <span>{item.dateStart}</span>
+                    <span>{formatDate(item.dateStart)}</span>
                     <span className='text-gray-600'>—</span>
-                    <span>{item.dateEnd}</span>
+                    <span>
+                      {formatDate(item.dateEnd)}
+                    </span>
                   </div>
 
                   {/* Description */}

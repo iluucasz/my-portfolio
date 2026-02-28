@@ -17,6 +17,9 @@ import ProjectsSkeleton from "@/components/skeletons/projects-skeleton";
 import ExperienceSkeleton from "@/components/skeletons/experience-skeleton";
 import SkillsSkeleton from "@/components/skeletons/skills-skeleton";
 
+// Revalidate every 60 seconds so Vercel fetches fresh Hygraph data
+export const revalidate = 60;
+
 export type TPageDataProp = {
   pageData: HomePageInfo
   id?: string
