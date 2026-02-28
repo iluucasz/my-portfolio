@@ -74,7 +74,7 @@ const Experience = ({ experienceData }: TExperienceDataProp) => {
 
   return (
     <>
-      <section className="relative flex flex-col items-center w-full min-h-screen px-4 py-40">
+      <section id="experiencia" className="relative flex flex-col items-center w-full min-h-screen px-4 py-40">
         {/* Background glow */}
         <ParallaxLayer speed={0.06} className="pointer-events-none absolute inset-0">
           <div className="absolute right-0 top-1/3 h-[400px] w-[400px] rounded-full bg-red-900/8 blur-[120px]" />

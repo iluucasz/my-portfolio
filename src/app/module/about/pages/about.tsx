@@ -95,7 +95,7 @@ export const About = ({ pageData }: TPageDataProp) => {
   }, []);
 
   return (
-    <section className="relative flex items-center justify-center min-h-screen px-4 py-40 text-white overflow-hidden">
+    <section id="sobre" className="relative flex items-center justify-center min-h-screen px-4 py-40 text-white overflow-hidden">
       {/* Subtle background glow */}
       <ParallaxLayer speed={-0.06} className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-red-900/10 blur-[120px]" />

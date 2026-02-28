@@ -13,7 +13,7 @@ const Projects = ({ pageData }: TPageDataProp) => {
 
   return (
     <>
-      <section className='flex flex-col items-center justify-around gap-16 py-40 h-full overflow-x-hidden w-full'>
+      <section id="projetos" className='flex flex-col items-center justify-around gap-16 py-40 h-full overflow-x-hidden w-full'>
         {/* Section title */}
         <TitleSection name="Projetos" />
 

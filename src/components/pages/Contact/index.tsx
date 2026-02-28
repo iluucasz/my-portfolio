@@ -6,7 +6,7 @@ import { TitleSection } from '@/components/TitleSection'
 const Contact = () => {
   return (
     <>
-      <section className='relative flex flex-col items-center w-full px-4 py-40 overflow-hidden'>
+      <section id="contato" className='relative flex flex-col items-center w-full px-4 py-40 overflow-hidden'>
         {/* Section title */}
         <TitleSection name="Contato" />
 

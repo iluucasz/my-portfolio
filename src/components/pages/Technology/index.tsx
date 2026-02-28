@@ -86,7 +86,7 @@ const Technology = ({ pageData }: TPageDataProp) => {
 
   return (
     <>
-      <section className='relative flex flex-col justify-center items-center w-full px-4 py-40'>
+      <section id="tecnologias" className='relative flex flex-col justify-center items-center w-full px-4 py-40'>
         {/* Section title */}
         <TitleSection name="Tecnologias" />
 
