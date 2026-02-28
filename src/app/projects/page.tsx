@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import Projects from '@/components/pages/projects';
+import ProjectGallery from '@/components/pages/projects/projectGallery';
 import { getPageData } from '@/context/useHygraph';
 import ProjectsSkeleton from '@/components/skeletons/projects-skeleton';
 
@@ -8,7 +8,7 @@ export const revalidate = 60;
 async function ProjectsContent() {
   const { page: pageData } = await getPageData();
   if (!pageData) return null;
-  return <Projects pageData={pageData} />;
+  return <ProjectGallery pageData={pageData} />;
 }
 
 export default function ProjectsPage() {
