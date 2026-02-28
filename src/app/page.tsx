@@ -11,6 +11,7 @@ import { TMyExperience } from "@/types/experience-info";
 import { TMySkills } from "@/types/mySkill-info";
 import { HomePageInfo } from "@/types/page-info";
 import About from "../components/pages/About";
+import SectionTimeline from "@/components/section-timeline";
 import AboutSkeleton from "@/components/skeletons/about-skeleton";
 import TechnologySkeleton from "@/components/skeletons/technology-skeleton";
 import ProjectsSkeleton from "@/components/skeletons/projects-skeleton";
@@ -66,6 +67,8 @@ async function SkillsSection() {
 export default function Home() {
   return (
     <>
+      <SectionTimeline />
+
       <Suspense fallback={<AboutSkeleton />}>
         <AboutSection />
       </Suspense>
