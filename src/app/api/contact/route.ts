@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { NEXT_PUBLIC_DISCORD } from "../../../../config/index.";
+import { NEXT_PUBLIC_DISCORD } from "../../../../config";
 
 const bodySchema = z.object({
   name: z.string(),

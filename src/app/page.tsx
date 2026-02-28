@@ -1,17 +1,21 @@
-import { TitleSection } from "@/components/TitleSection";
+import { Suspense } from "react";
 import { Footer } from "@/components/footer";
 import Contact from "@/components/pages/Contact";
 import Experience from "@/components/pages/Experience";
 import Technology from "@/components/pages/Technology";
 import Projects from "@/components/pages/projects";
 import Skills from "@/components/pages/skills";
+import Clouds from "@/components/clouds";
 import { getPageData } from "@/context/useHygraph";
 import { TMyExperience } from "@/types/experience-info";
 import { TMySkills } from "@/types/mySkill-info";
 import { HomePageInfo } from "@/types/page-info";
-import Image from "next/image";
-import loading from '../../public/images/loading.gif';
 import About from "../components/pages/About";
+import AboutSkeleton from "@/components/skeletons/about-skeleton";
+import TechnologySkeleton from "@/components/skeletons/technology-skeleton";
+import ProjectsSkeleton from "@/components/skeletons/projects-skeleton";
+import ExperienceSkeleton from "@/components/skeletons/experience-skeleton";
+import SkillsSkeleton from "@/components/skeletons/skills-skeleton";
 
 export type TPageDataProp = {
   pageData: HomePageInfo
@@ -25,25 +29,70 @@ export type TMySkillsDataProp = {
   mySkillsData: TMySkills[]
 }
 
-export default async function Home() {
-  const { page: pageData, myExperiences: experienceData, mySkills: mySkillsData } = await getPageData()
+/* ── Async section wrappers ── */
+async function AboutSection() {
+  const { page: pageData } = await getPageData();
+  if (!pageData) return null;
+  return <About pageData={pageData} />;
+}
 
-  if (!pageData) {
-    return (
-      <div className="absolute top-2/4 left-2/4 z-10">
-        <Image width={200} height={200} src={loading} alt="loading" />
-      </div>
-    )
-  }
+async function TechnologySection() {
+  const { page: pageData } = await getPageData();
+  if (!pageData) return null;
+  return <Technology pageData={pageData} />;
+}
 
+async function ProjectsSection() {
+  const { page: pageData } = await getPageData();
+  if (!pageData) return null;
+  return <Projects pageData={pageData} />;
+}
+
+async function ExperienceSection() {
+  const { myExperiences: experienceData } = await getPageData();
+  if (!experienceData?.length) return null;
+  return <Experience experienceData={experienceData} />;
+}
+
+async function SkillsSection() {
+  const { mySkills: mySkillsData } = await getPageData();
+  if (!mySkillsData?.length) return null;
+  return <Skills mySkillsData={mySkillsData} />;
+}
+
+export default function Home() {
   return (
     <>
-      <TitleSection name="Sobre" />
-      <About pageData={pageData} />
-      <Technology pageData={pageData} />
-      <Projects pageData={pageData} />
-      <Experience experienceData={experienceData} />
-      <Skills mySkillsData={mySkillsData} />
+      <Suspense fallback={<AboutSkeleton />}>
+        <AboutSection />
+      </Suspense>
+
+      <div className="h-52 lg:h-72" />
+      <div className="relative overflow-hidden">
+        <Clouds id="clouds-tech-exp" />
+        <div className="relative z-[1]">
+          <Suspense fallback={<TechnologySkeleton />}>
+            <TechnologySection />
+          </Suspense>
+
+          <div className="h-52 lg:h-72" />
+          <Suspense fallback={<ProjectsSkeleton />}>
+            <ProjectsSection />
+          </Suspense>
+
+          <div className="h-52 lg:h-72" />
+          <Suspense fallback={<ExperienceSkeleton />}>
+            <ExperienceSection />
+          </Suspense>
+        </div>
+      </div>
+
+      <div className="h-52 lg:h-72" />
+      <Suspense fallback={<SkillsSkeleton />}>
+        <SkillsSection />
+      </Suspense>
+
+      <div className="h-52 lg:h-72" />
       <Contact />
       <Footer />
     </>

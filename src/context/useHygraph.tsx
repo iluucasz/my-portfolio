@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { HomePageData } from "@/types/page-info";
 import { fetchHygraphQuery } from "@/utils/fetch-hygraph-query";
 
@@ -73,8 +74,8 @@ query MyQuery {
 }
  `;
 
-export const getPageData = async (): Promise<HomePageData> => {
+export const getPageData = cache(async (): Promise<HomePageData> => {
   return fetchHygraphQuery(
     query
   )
-}
+})

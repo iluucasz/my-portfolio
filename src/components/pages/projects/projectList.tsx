@@ -3,66 +3,194 @@ import { TPageDataProp } from '@/app/page';
 import { TLight } from '@/types/higthLigthProjects';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { MdOutlineTag } from 'react-icons/md';
+import { HiOutlineExternalLink } from 'react-icons/hi';
+import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 import ModalExperience from './modalProject';
+
+const MAX_VISIBILITY = 3;
 
 const ProjectList = ({ pageData }: TPageDataProp) => {
   const [openModalId, setOpenModalId] = useState<null | number>(null);
-
-  const pathname = usePathname()
+  const [active, setActive] = useState(0);
+  const pathname = usePathname();
+  const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   const toggleModal = (projectId: number) => {
-    if (openModalId === projectId) {
-      setOpenModalId(null);
-    } else {
-      setOpenModalId(projectId);
-    }
+    setOpenModalId(prev => (prev === projectId ? null : projectId));
   };
 
-  const LIST_PROJECTS = pageData?.highLightProjects ?? [];
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    const card = cardRefs.current.get(index);
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const xDeg = (y - 0.5) * 10;
+    const yDeg = (x - 0.5) * -10;
+    card.style.transform = `perspective(1000px) rotateX(${xDeg}deg) rotateY(${yDeg}deg)`;
 
-  const displayedProjects = pathname === '/' ? LIST_PROJECTS.slice(0, 3) : LIST_PROJECTS;
+    const imgLayer = card.querySelector<HTMLElement>('.card-layer-image');
+    const contentLayer = card.querySelector<HTMLElement>('.card-layer-content');
+    if (imgLayer) {
+      const ox = (x - 0.5) * -12;
+      const oy = (y - 0.5) * -12;
+      imgLayer.style.transform = `translate3d(${ox}px, ${oy}px, 20px) scale(1.08)`;
+    }
+    if (contentLayer) {
+      const ox = (x - 0.5) * 8;
+      const oy = (y - 0.5) * 8;
+      contentLayer.style.transform = `translate3d(${ox}px, ${oy}px, 40px)`;
+    }
+  }, []);
+
+  const handleMouseLeave = useCallback((index: number) => {
+    const card = cardRefs.current.get(index);
+    if (!card) return;
+    card.style.transform = '';
+    const imgLayer = card.querySelector<HTMLElement>('.card-layer-image');
+    const contentLayer = card.querySelector<HTMLElement>('.card-layer-content');
+    if (imgLayer) imgLayer.style.transform = '';
+    if (contentLayer) contentLayer.style.transform = '';
+  }, []);
+
+  const LIST_PROJECTS = pageData?.highLightProjects ?? [];
+  const displayedProjects = pathname === '/' ? LIST_PROJECTS.slice(0, 7) : LIST_PROJECTS;
+  const count = displayedProjects.length;
+  const directionRef = useRef(1); // 1 = forward, -1 = backward
+
+  // Auto-advance every 5s (ping-pong) — pauses while modal is open
+  useEffect(() => {
+    if (count <= 1 || openModalId !== null) return;
+    const timer = setInterval(() => {
+      setActive(prev => {
+        if (directionRef.current === 1 && prev >= count - 1) {
+          directionRef.current = -1;
+          return prev - 1;
+        }
+        if (directionRef.current === -1 && prev <= 0) {
+          directionRef.current = 1;
+          return prev + 1;
+        }
+        return prev + directionRef.current;
+      });
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [count, openModalId]);
 
   return (
     <>
-      {displayedProjects.map((item: TLight, index: number) => (
-        <div key={index}>
-          {openModalId === index && (
-            <ModalExperience item={item} setOpen={() => setOpenModalId(null)} key={0} />
-          )}
-          <div className="group relative cursor-pointer items-center justify-center rounded-xl overflow-hidden transition-shadow hover:shadow-xl border-2 border-transparent hover:border-2 hover:border-red-900 hover:shadow-black/30 -translate-x-full opacity-0" id='ScrollProject'>
-            <div className="h-96 w-72">
-              <Image
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-                src={item.imageProject.url}
-                alt={item.slug}
-                width={300}
-                height={300}
-              />
-            </div>
+      {/* Modals */}
+      {displayedProjects.map((item: TLight, index: number) =>
+        openModalId === index ? (
+          <ModalExperience item={item} setOpen={() => setOpenModalId(null)} key={index} />
+        ) : null
+      )}
 
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
+      <div className="mb-4" />
 
-            <div className="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
-              <h1 className="flex gap-1 items-center font-dmserif text-3xl font-bold text-red-900">
-                <MdOutlineTag />
-                {item.title}
-              </h1>
-              <p className="mb-3 text-lg italic text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                {item.shortDescription}
-              </p>
-              <button
-                onClick={() => toggleModal(index)}
-                className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="button"
-              >
-                Ver projeto...
+      <div className="project-carousel">
+            {active > 0 && (
+              <button className="project-carousel__nav project-carousel__nav--left" onClick={() => setActive(i => i - 1)}>
+                <TiChevronLeftOutline />
               </button>
-            </div>
+            )}
+
+            {displayedProjects.map((item: TLight, index: number) => {
+              const offset = active - index;
+              const absOffset = Math.abs(offset);
+              const direction = Math.sign(offset);
+              const isActive = index === active;
+              const isVisible = absOffset < MAX_VISIBILITY;
+
+              return (
+                <div
+                  key={index}
+                  className="project-carousel__card-container"
+                  style={{
+                    '--active': isActive ? 1 : 0,
+                    '--offset': offset / 3,
+                    '--direction': direction,
+                    '--abs-offset': absOffset / 3,
+                    pointerEvents: isActive ? 'auto' : 'none',
+                    opacity: isVisible ? 1 : 0,
+                    display: absOffset > MAX_VISIBILITY ? 'none' : 'block',
+                  } as React.CSSProperties}
+                >
+                <div
+                  ref={(el) => {
+                    if (el) cardRefs.current.set(index, el);
+                    else cardRefs.current.delete(index);
+                  }}
+                  className="project-carousel__card group"
+                  onClick={() => isActive && toggleModal(index)}
+                  onMouseMove={(e) => isActive && handleMouseMove(e, index)}
+                  onMouseLeave={() => handleMouseLeave(index)}
+                >
+                  <div className="card-frame-border" />
+                  <div className="absolute inset-0 overflow-hidden rounded-[inherit] card-layer-image">
+                      <Image
+                        className="h-full w-full object-cover"
+                        src={item.imageProject.url}
+                        alt={item.slug}
+                        fill
+                        quality={90}
+                        sizes="(max-width: 768px) 80vw, 23rem"
+                        draggable={false}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+                    </div>
+
+                    <div className="relative z-10 flex h-full flex-col justify-end p-5 card-layer-content"
+                      style={{ opacity: 'var(--active)' } as React.CSSProperties}>
+                      <h2 className="card-hover-title flex items-center gap-1.5 text-lg font-bold text-white drop-shadow-lg">
+                        <MdOutlineTag className="text-red-500" />
+                        {item.title}
+                      </h2>
+                      <p className="card-hover-desc mt-2 text-sm leading-relaxed text-gray-300 line-clamp-3">
+                        {item.shortDescription}
+                      </p>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleModal(index);
+                        }}
+                        className="card-hover-btn mt-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-red-900/80 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-all hover:bg-red-800 hover:shadow-lg hover:shadow-red-900/30"
+                        type="button"
+                      >
+                        <HiOutlineExternalLink className="text-sm" />
+                        Ver projeto
+                      </button>
+                    </div>
+                </div>
+                </div>
+              );
+            })}
+
+            {active < count - 1 && (
+              <button className="project-carousel__nav project-carousel__nav--right" onClick={() => setActive(i => i + 1)}>
+                <TiChevronRightOutline />
+              </button>
+            )}
           </div>
-        </div>
-      ))}
+
+          {count > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-12">
+              {displayedProjects.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === active
+                      ? 'w-6 bg-red-500'
+                      : 'w-2 bg-white/20 hover:bg-white/40'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
     </>
   );
 };

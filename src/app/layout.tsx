@@ -3,8 +3,9 @@ import { Inter } from "next/font/google";
 import "@/styles/index.scss";
 import { Header } from "@/components/header";
 import BackToTop from "@/components/back-to-top";
+import BackgroundEffects from "@/components/background-effects";
 import { Suspense } from "react";
-import LoandingPage from "./loanding";
+import LoadingPage from "./loading";
 import Toaster from "@/components/toast";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,14 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
-      <body className={inter.className}>
+    <html lang="pt-BR" className="overflow-x-hidden">
+      <body className={`${inter.className} relative overflow-x-hidden`}>
+        <BackgroundEffects />
         <BackToTop />
         <Toaster />
         <Header />
-        <Suspense fallback={<LoandingPage />}>
-          {children}
-        </Suspense>
+        <main className="relative z-10 pt-20 overflow-x-hidden">
+          <Suspense fallback={<LoadingPage />}>
+            {children}
+          </Suspense>
+        </main>
       </body>
     </html>
   );
