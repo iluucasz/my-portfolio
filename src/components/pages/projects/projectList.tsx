@@ -56,7 +56,11 @@ const ProjectList = ({ pageData }: TPageDataProp) => {
     if (contentLayer) contentLayer.style.transform = '';
   }, []);
 
-  const LIST_PROJECTS = pageData?.highLightProjects ?? [];
+  const LIST_PROJECTS = (pageData?.highLightProjects ?? []).sort((a, b) => {
+    const aD = a.destaque ?? Infinity;
+    const bD = b.destaque ?? Infinity;
+    return aD - bD;
+  });
   const displayedProjects = pathname === '/' ? LIST_PROJECTS.slice(0, 7) : LIST_PROJECTS;
   const count = displayedProjects.length;
   const directionRef = useRef(1); // 1 = forward, -1 = backward

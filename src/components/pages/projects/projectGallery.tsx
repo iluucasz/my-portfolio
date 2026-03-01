@@ -19,7 +19,11 @@ const ProjectGallery = ({ pageData }: TPageDataProp) => {
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const LIST_PROJECTS: TLight[] = pageData?.highLightProjects ?? [];
+  const LIST_PROJECTS: TLight[] = (pageData?.highLightProjects ?? []).sort((a, b) => {
+    const aD = a.destaque ?? Infinity;
+    const bD = b.destaque ?? Infinity;
+    return aD - bD;
+  });
 
   const toggleModal = (projectId: number) => {
     setOpenModalId(prev => (prev === projectId ? null : projectId));

@@ -19,6 +19,7 @@ query MyQuery {
       url
     }
     highLightProjects(first: 30) {
+      destaque
       linkForGit
       linkDoProjeto
       slug

@@ -6,6 +6,7 @@ export type TLight = {
       url: string;
    };
    dateProject: string;
+   destaque?: number;
    imageProject: {
       url: string;
    };
