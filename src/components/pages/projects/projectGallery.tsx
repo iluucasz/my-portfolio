@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { MdOutlineTag } from 'react-icons/md';
 import { HiOutlineExternalLink } from 'react-icons/hi';
-import { FiCalendar } from 'react-icons/fi';
+import { FiCalendar, FiPlay } from 'react-icons/fi';
 import ModalExperience from './modalProject';
 import { TitleSection } from '@/components/TitleSection';
 import gsap from 'gsap';
@@ -139,8 +139,7 @@ const ProjectGallery = ({ pageData }: TPageDataProp) => {
                     src={item.imageProject.url}
                     alt={item.title}
                     fill
-                    quality={85}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    unoptimized
                     draggable={false}
                   />
                   {/* Gradient overlay */}
@@ -158,10 +157,24 @@ const ProjectGallery = ({ pageData }: TPageDataProp) => {
                 {/* Content */}
                 <div className="relative z-10 p-4 space-y-3">
                   {/* Title */}
-                  <h3 className="flex items-center gap-2 text-base font-bold text-white tracking-tight group-hover:text-red-100 transition-colors duration-300">
-                    <MdOutlineTag className="text-red-500 flex-shrink-0" />
-                    <span className="truncate">{item.title}</span>
-                  </h3>
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="flex items-center gap-2 text-base font-bold text-white tracking-tight group-hover:text-red-100 transition-colors duration-300 min-w-0">
+                      <MdOutlineTag className="text-red-500 flex-shrink-0" />
+                      <span className="truncate">{item.title}</span>
+                    </h3>
+                    {item.linkDoProjeto && (
+                      <a
+                        href={item.linkDoProjeto}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Ir ao projeto"
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex-shrink-0 flex h-11 w-11 items-center justify-center rounded-full border border-red-500/30 bg-red-900/40 text-white backdrop-blur-sm transition-all duration-300 hover:bg-red-700 hover:border-red-500/60 hover:shadow-lg hover:shadow-red-900/30 hover:scale-110"
+                      >
+                        <FiPlay className="text-lg ml-0.5" />
+                      </a>
+                    )}
+                  </div>
 
                   {/* Description */}
                   <p className="text-sm leading-relaxed text-gray-400 line-clamp-2 group-hover:text-gray-300 transition-colors duration-300">

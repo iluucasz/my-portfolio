@@ -2,9 +2,9 @@
 import { CmsIcon } from "@/components/csm-icon";
 import { TLight } from "@/types/higthLigthProjects";
 import Image from "next/image";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { FiExternalLink, FiGithub } from "react-icons/fi";
+import { FiExternalLink, FiGithub, FiZoomIn, FiPlay } from "react-icons/fi";
 import { MdOutlineCalendarToday } from "react-icons/md";
 import { MdOutlineTag } from "react-icons/md";
 
@@ -14,6 +14,7 @@ type TItemProp = {
 };
 
 const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolean) => void }) => {
+  const [imagePreview, setImagePreview] = useState(false);
   const List_Tech = item.technologies || [];
   const List_Social = item.socialMedias || [];
 
@@ -36,8 +37,35 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
   }, [handleKeyDown]);
 
   return (
+    <>
+    {/* Fullscreen image preview */}
+    {imagePreview && (
+      <div
+        className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-xl animate-fadeIn cursor-zoom-out"
+        onClick={() => setImagePreview(false)}
+      >
+        <button
+          type="button"
+          onClick={() => setImagePreview(false)}
+          className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/60 text-gray-400 backdrop-blur-md transition-all duration-300 hover:border-red-500/50 hover:bg-red-900/60 hover:text-white hover:rotate-90"
+        >
+          <IoClose className="text-xl" />
+        </button>
+        <div className="relative w-[90vw] h-[80vh] max-w-5xl">
+          <Image
+            src={item.imageProject.url}
+            alt={item.title}
+            fill
+            quality={100}
+            sizes="90vw"
+            className="object-contain"
+          />
+        </div>
+      </div>
+    )}
+
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-0 animate-fadeIn"
+      className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 pt-24 sm:p-6 sm:pt-24 animate-fadeIn"
       onClick={() => setOpen(false)}
     >
       {/* Backdrop */}
@@ -45,14 +73,14 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
 
       {/* Modal */}
       <div
-        className="project-modal relative z-10 w-full max-w-[560px] max-h-[100vh] overflow-hidden rounded-xl animate-scaleIn mx-2 sm:mx-auto"
+        className="project-modal relative z-10 w-full max-w-[560px] max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] overflow-hidden rounded-xl animate-scaleIn mx-2 sm:mx-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top accent line */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-500 to-transparent z-20" />
 
         {/* Inner scroll container */}
-        <div className="overflow-y-auto max-h-[100vh] project-modal-scroll">
+        <div className="overflow-y-auto max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] project-modal-scroll">
 
           {/* Close button */}
           <button
@@ -73,6 +101,16 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
               sizes="(max-width: 560px) 100vw, 560px"
               className="object-cover"
             />
+            {/* View image button */}
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setImagePreview(true); }}
+              className="absolute top-4 left-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/60 text-gray-400 backdrop-blur-md transition-all duration-300 hover:border-red-500/50 hover:bg-red-900/60 hover:text-white hover:shadow-lg hover:shadow-red-900/20"
+              title="Ver imagem"
+            >
+              <FiZoomIn className="text-base" />
+            </button>
+
             {/* Multi-layer gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-[#0a0a14]/60 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a14]/30 to-transparent" />
@@ -85,9 +123,23 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
                   {item.slug}
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-lg">
-                {item.title}
-              </h2>
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-lg">
+                  {item.title}
+                </h2>
+                {item.linkDoProjeto && (
+                  <a
+                    href={item.linkDoProjeto}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Ir ao projeto"
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex-shrink-0 flex h-10 w-10 items-center justify-center rounded-full border border-red-500/30 bg-red-900/40 text-white backdrop-blur-sm transition-all duration-300 hover:bg-red-700 hover:border-red-500/60 hover:shadow-lg hover:shadow-red-900/30 hover:scale-110"
+                  >
+                    <FiPlay className="text-base ml-0.5" />
+                  </a>
+                )}
+              </div>
               <div className="mt-2 flex items-center gap-2 text-sm text-gray-400">
                 <MdOutlineCalendarToday className="text-red-400 text-xs" />
                 <span>{item.dateProject}</span>
@@ -100,7 +152,7 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
 
             {/* Description */}
             <div>
-              <p className="text-sm leading-[1.8] text-gray-400">
+              <p className="text-sm leading-[1.8] text-gray-400 max-h-[6.5rem] overflow-y-auto pr-1 project-modal-scroll">
                 {item.shortDescription}
               </p>
             </div>
@@ -136,7 +188,7 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
                 <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                 <div>
                   <h4 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-500">
-                    Links do projeto
+                    Redes sociais
                   </h4>
                   <div className="flex flex-wrap gap-3">
                     {List_Social.map((social, index) => (
@@ -148,7 +200,7 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
                         className="inline-flex items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.08] hover:text-white hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/20"
                       >
                         <CmsIcon icon={social.iconSvg} height="16px" width="16px" />
-                        <span>Acessar</span>
+                        <span>{social.name || 'Acessar'}</span>
                         <FiExternalLink className="text-xs opacity-40" />
                       </a>
                     ))}
@@ -177,6 +229,7 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
         </div>
       </div>
     </div>
+    </>
   );
 };
 

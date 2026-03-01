@@ -20,6 +20,7 @@ query MyQuery {
     }
     highLightProjects(first: 30) {
       linkForGit
+      linkDoProjeto
       slug
       shortDescription
       title

@@ -10,6 +10,7 @@ export type TLight = {
       url: string;
    };
    linkForGit: string;
+   linkDoProjeto?: string;
    slug: string;
    shortDescription: string;
    socialMedias: TSocial[];

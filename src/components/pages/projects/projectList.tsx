@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { MdOutlineTag } from 'react-icons/md';
 import { HiOutlineExternalLink } from 'react-icons/hi';
+import { FiPlay } from 'react-icons/fi';
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 import ModalExperience from './modalProject';
 
@@ -135,8 +136,7 @@ const ProjectList = ({ pageData }: TPageDataProp) => {
                         src={item.imageProject.url}
                         alt={item.slug}
                         fill
-                        quality={90}
-                        sizes="(max-width: 768px) 80vw, 23rem"
+                        unoptimized
                         draggable={false}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
@@ -144,10 +144,24 @@ const ProjectList = ({ pageData }: TPageDataProp) => {
 
                     <div className="relative z-10 flex h-full flex-col justify-end p-5 card-layer-content"
                       style={{ opacity: 'var(--active)' } as React.CSSProperties}>
-                      <h2 className="card-hover-title flex items-center gap-1.5 text-lg font-bold text-white drop-shadow-lg">
-                        <MdOutlineTag className="text-red-500" />
-                        {item.title}
-                      </h2>
+                      <div className="card-hover-title flex items-center justify-between gap-2">
+                        <h2 className="flex items-center gap-1.5 text-lg font-bold text-white drop-shadow-lg">
+                          <MdOutlineTag className="text-red-500" />
+                          {item.title}
+                        </h2>
+                        {item.linkDoProjeto && (
+                          <a
+                            href={item.linkDoProjeto}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Ir ao projeto"
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex-shrink-0 flex h-11 w-11 items-center justify-center rounded-full border border-red-500/30 bg-red-900/40 text-white backdrop-blur-sm transition-all duration-300 hover:bg-red-700 hover:border-red-500/60 hover:shadow-lg hover:shadow-red-900/30 hover:scale-110"
+                          >
+                            <FiPlay className="text-lg ml-0.5" />
+                          </a>
+                        )}
+                      </div>
                       <p className="card-hover-desc mt-2 text-sm leading-relaxed text-gray-300 line-clamp-3">
                         {item.shortDescription}
                       </p>
