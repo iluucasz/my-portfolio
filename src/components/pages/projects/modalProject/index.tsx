@@ -4,7 +4,7 @@ import { TLight } from "@/types/higthLigthProjects";
 import Image from "next/image";
 import { useEffect, useCallback, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { FiExternalLink, FiGithub, FiZoomIn, FiPlay } from "react-icons/fi";
+import { FiExternalLink, FiGithub, FiZoomIn, FiPlay, FiLock } from "react-icons/fi";
 import { MdOutlineCalendarToday } from "react-icons/md";
 import { MdOutlineTag } from "react-icons/md";
 
@@ -213,18 +213,27 @@ const ModalExperience = ({ item, setOpen }: TItemProp & { setOpen: (open: boolea
             <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
             {/* Main CTA */}
-            <a
-              href={item.linkForGit}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/cta relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-lg border border-red-500/20 bg-gradient-to-r from-red-900/80 to-red-800/80 px-5 py-4 text-base font-semibold text-white transition-all duration-300 hover:border-red-500/40 hover:from-red-800 hover:to-red-700 hover:shadow-xl hover:shadow-red-900/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99]"
-            >
-              {/* Shine effect on hover */}
-              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover/cta:translate-x-full" />
-              <FiGithub className="relative text-lg" />
-              <span className="relative">Ver Projeto no GitHub</span>
-              <FiExternalLink className="relative text-sm opacity-60" />
-            </a>
+            {item.linkForGit ? (
+              <a
+                href={item.linkForGit}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/cta relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-lg border border-red-500/20 bg-gradient-to-r from-red-900/80 to-red-800/80 px-5 py-4 text-base font-semibold text-white transition-all duration-300 hover:border-red-500/40 hover:from-red-800 hover:to-red-700 hover:shadow-xl hover:shadow-red-900/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99]"
+              >
+                {/* Shine effect on hover */}
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover/cta:translate-x-full" />
+                <FiGithub className="relative text-lg" />
+                <span className="relative">Ver Projeto no GitHub</span>
+                <FiExternalLink className="relative text-sm opacity-60" />
+              </a>
+            ) : (
+              <div
+                className="relative flex w-full items-center justify-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.03] px-5 py-4 text-base font-semibold text-gray-500 cursor-not-allowed select-none"
+              >
+                <FiLock className="text-lg" />
+                <span>Este projeto é privado</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
